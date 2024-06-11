@@ -13,7 +13,6 @@ public class PrintDanServlet extends HttpServlet {
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getRequestDispatcher("/jsp/home/printDan.jsp").forward(request, response);
-		// /jsp/home/printDan.jsp 를 실행, 이때 request/response 를 같이 넘긴다.
 	}
   
 }
