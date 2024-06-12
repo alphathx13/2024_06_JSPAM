@@ -20,7 +20,6 @@
 		<ul style = "display : inline-block">
 			<li style = "display : block"><h2><%= article.get("id") %>번 게시글</h2></li>
 			<li style = "display : block"><br></li>
-			<li style = "display : block">작성자 : <%= article.get("writer") %></li>
 			<li style = "display : block">작성일시 : <%= article.get("regDate") %></li>
 			<li style = "display : block">수정일시 : <%= article.get("updateDate") %></li>
 			<li style = "display : block">글 제목 : <%= article.get("title") %></li>

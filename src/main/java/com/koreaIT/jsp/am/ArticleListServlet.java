@@ -35,14 +35,36 @@ public class ArticleListServlet extends HttpServlet {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(URL, USER, PASSWORD);
-
-			SecSql sql = new SecSql();
+			int itemsInPage = 10;
+			int cPage;
+			int tPage;
+			List<Map<String, Object>> articleList;
 			
+			String inputPage = request.getParameter("page");
+			if (inputPage == null || inputPage.length() == 0)
+				cPage = 1;
+			try {
+				cPage = Integer.parseInt(inputPage);
+			} catch (NumberFormatException e) {
+				cPage = 1;
+			}
+			
+			SecSql sql = new SecSql();
+			sql.append("SELECT COUNT(*) FROM article");
+			int tArticle = DBUtil.selectRowIntValue(conn, sql);
+			
+			tPage = tArticle % itemsInPage == 0 ? tArticle / itemsInPage : tArticle / itemsInPage + 1;
+//			int tPage = (int) Math.ceil((double) tArticle / 10);	
+			
+			sql = new SecSql();
 			sql.append("SELECT * FROM article");
 			sql.append("ORDER BY id DESC");
+			sql.append("LIMIT ?, ?", (cPage-1)*itemsInPage+1, itemsInPage);
+			articleList = DBUtil.selectRows(conn, sql);
 			
-			List<Map<String, Object>> articleList = DBUtil.selectRows(conn, sql);
 			request.setAttribute("articleList", articleList);
+			request.setAttribute("cPage", cPage);
+			request.setAttribute("tPage", tPage);
 			request.getRequestDispatcher("/jsp/article/list.jsp").forward(request, response);
 			
 		} catch (SQLException e) {
