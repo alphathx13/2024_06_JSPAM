@@ -16,7 +16,7 @@
 
 	<h1>ArticleList</h1>
 
-	<nav class="menu-bar" style = "background-color : skyblue">
+	<nav class="menu-bar" style = "background-color : skyblue; display : inline-block; padding-right : 30px">
 		<% for (Map<String, Object> article : articleList) { %>
 			<ul style = "display : inline-block">
 				<li style = "display : block">글번호 : <%= article.get("id") %></li>

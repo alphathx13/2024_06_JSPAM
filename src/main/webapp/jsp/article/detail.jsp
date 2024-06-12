@@ -14,23 +14,24 @@
 </head>
 <body>
 
-	<div>
-		<h2>페이지 이동</h2>
-		<a href=" <%= request.getContextPath() %>/article/list">게시글 목록</a>
-	</div>
-
 	<h1>ArticleDetail</h1>
 
 	<nav class="menu-bar" style = "background-color : skyblue">
 		<ul style = "display : inline-block">
-			<li style = "display : block">글번호 : <%= article.get("id") %></li>
-			<li style = "display : block">글 제목 : <%= article.get("title") %></a></li>
-			<li style = "display : block">글 내용 : <%= article.get("body") %></li>
+			<li style = "display : block"><h2><%= article.get("id") %>번 게시글</h2></li>
+			<li style = "display : block"><br></li>
+			<li style = "display : block">작성자 : <%= article.get("writer") %></li>
 			<li style = "display : block">작성일시 : <%= article.get("regDate") %></li>
 			<li style = "display : block">수정일시 : <%= article.get("updateDate") %></li>
-			<li style = "display : block">작성자 : <%= article.get("writer") %></li>
+			<li style = "display : block">글 제목 : <%= article.get("title") %></li>
+			<li style = "display : block">글 내용 : <%= article.get("body") %></li>
 		</ul>
 	</nav>
+	
+	<br>
+	
+	<button><a href="/article/delete?id=<%= article.get("id") %>" style = "text-decoration : none">글 삭제하기</a></button>
+	<button><a href="list" style = "text-decoration : none">게시글 목록으로 돌아가기</a></button>
 	
 </body>
 </html>

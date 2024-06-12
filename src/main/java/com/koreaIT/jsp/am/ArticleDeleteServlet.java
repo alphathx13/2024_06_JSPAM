@@ -9,12 +9,11 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Map;
 
 import com.koreaIT.jsp.am.util.*;
 
-@WebServlet("/article/detail")
-public class ArticleDetailServlet extends HttpServlet {
+@WebServlet("/article/delete")
+public class ArticleDeleteServlet extends HttpServlet {
 	private final String URL;
 	private final String USER;
 	private final String PASSWORD;
@@ -37,12 +36,17 @@ public class ArticleDetailServlet extends HttpServlet {
 
 			SecSql sql = new SecSql();
 			
-			sql.append("SELECT * FROM article");
+			sql.append("DELETE FROM article");
 			sql.append("WHERE ID = ?", request.getParameter("id"));
 			
-			Map<String, Object> article = DBUtil.selectRow(conn, sql);
-			request.setAttribute("article", article);
-			request.getRequestDispatcher("/jsp/article/detail.jsp").forward(request, response);
+			DBUtil.delete(conn, sql);
+			
+//			PrintWriter out = response.getWriter();
+//			out.printf("<script> alert('%s번 글이 삭제되었습니다.') </script>", request.getParameter("id"));
+//			out.flush();
+
+			response.setContentType("text/html; charset=UTF-8");
+			response.getWriter().append(String.format("<script> alert('%s번 글이 삭제되었습니다.'); location.replace('list');</script>", request.getParameter("id")));
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

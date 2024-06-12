@@ -43,7 +43,7 @@ public class ArticleListServlet extends HttpServlet {
 			
 			List<Map<String, Object>> articleList = DBUtil.selectRows(conn, sql);
 			request.setAttribute("articleList", articleList);
-			request.getRequestDispatcher("/jsp/home/article/list.jsp").forward(request, response);
+			request.getRequestDispatcher("/jsp/article/list.jsp").forward(request, response);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
