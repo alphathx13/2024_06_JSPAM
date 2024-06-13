@@ -35,10 +35,11 @@ public class ArticleListServlet extends HttpServlet {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(URL, USER, PASSWORD);
+
+			List<Map<String, Object>> articleList;
 			int itemsInPage = 10;
 			int cPage;
 			int tPage;
-			List<Map<String, Object>> articleList;
 			
 			String inputPage = request.getParameter("page");
 			if (inputPage == null || inputPage.length() == 0)
@@ -49,12 +50,14 @@ public class ArticleListServlet extends HttpServlet {
 				cPage = 1;
 			}
 			
+			int from = ((cPage - 1) / itemsInPage) * 10 + 1;
+			int end = (((cPage - 1) / itemsInPage) +1) * 10;
+					
 			SecSql sql = new SecSql();
 			sql.append("SELECT COUNT(*) FROM article");
-			int tArticle = DBUtil.selectRowIntValue(conn, sql);
+			int tArticle = DBUtil.selectRowIntValue(conn, sql) - 1;
 			
-			tPage = tArticle % itemsInPage == 0 ? tArticle / itemsInPage : tArticle / itemsInPage + 1;
-//			int tPage = (int) Math.ceil((double) tArticle / 10);	
+			tPage = (int) Math.ceil((double) tArticle / 10);	
 			
 			sql = new SecSql();
 			sql.append("SELECT * FROM article");
@@ -65,6 +68,8 @@ public class ArticleListServlet extends HttpServlet {
 			request.setAttribute("articleList", articleList);
 			request.setAttribute("cPage", cPage);
 			request.setAttribute("tPage", tPage);
+			request.setAttribute("from", from);
+			request.setAttribute("end", end);
 			request.getRequestDispatcher("/jsp/article/list.jsp").forward(request, response);
 			
 		} catch (SQLException e) {
