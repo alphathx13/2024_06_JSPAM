@@ -10,7 +10,8 @@
 	<h2>메인 페이지</h2>
 	
 	<div>
-		<div><a href="../article/list">게시물 리스트</a></div>
+		<div><a href="../article/list">게시판</a></div>
 	</div>
+	
 </body>
 </html>

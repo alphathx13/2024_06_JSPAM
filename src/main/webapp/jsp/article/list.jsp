@@ -97,7 +97,7 @@
 		tempPage = tPage-4;
 	%>
 	
-	<a class = "a pageLink" href="?page=<%= 1 %>"> 첫페이지 </a>
+	<a class = "a pageLink" href="?page=1"> 첫페이지 </a>
 	
 	<% for (int i = tempPage-4; i <= tempPage+4; i++) {%>
 		<a class = "<%= i == cPage? "cPage" : "a pageLink" %>"  href="?page=<%= i %>"> <%= i %> </a>
@@ -105,6 +105,8 @@
 
 	<a class = "a pageLink" href="?page=<%= tPage %>"> 끝페이지 </a>
 -->	
+
+	<button type="button" onclick="location.href='write'">글 작성하기</button>
 
 	<h3><a class = "a pageLink" href="/home/main">메인 화면</a></h3>
 </body>

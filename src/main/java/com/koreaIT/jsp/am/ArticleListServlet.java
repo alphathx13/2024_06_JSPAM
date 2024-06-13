@@ -55,14 +55,14 @@ public class ArticleListServlet extends HttpServlet {
 					
 			SecSql sql = new SecSql();
 			sql.append("SELECT COUNT(*) FROM article");
-			int tArticle = DBUtil.selectRowIntValue(conn, sql) - 1;
+			int tArticle = DBUtil.selectRowIntValue(conn, sql);
 			
 			tPage = (int) Math.ceil((double) tArticle / 10);	
 			
 			sql = new SecSql();
 			sql.append("SELECT * FROM article");
 			sql.append("ORDER BY id DESC");
-			sql.append("LIMIT ?, ?", (cPage-1)*itemsInPage+1, itemsInPage);
+			sql.append("LIMIT ?, ?", (cPage-1)*itemsInPage, itemsInPage);
 			articleList = DBUtil.selectRows(conn, sql);
 			
 			request.setAttribute("articleList", articleList);
