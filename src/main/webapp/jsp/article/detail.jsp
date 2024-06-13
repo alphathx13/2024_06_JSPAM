@@ -47,6 +47,7 @@
 	
 	<br>
 	
+	<button><a href="modify?id=<%= article.get("id") %>">글 수정하기</a></button>
 	<button><a href="delete?id=<%= article.get("id") %>" onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false">글 삭제하기</a></button>
 	<button type="button" onclick="location.href='list'">게시글 목록으로 돌아가기</button>
 	
