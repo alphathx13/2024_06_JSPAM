@@ -12,19 +12,19 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import com.koreaIT.jsp.am.config.Config;
 import com.koreaIT.jsp.am.util.*;
 
 @WebServlet("/article/list")
 public class ArticleListServlet extends HttpServlet {
-	private final String URL;
-	private final String USER;
-	private final String PASSWORD;
 	public Connection conn;
+	static int itemsInPage;
+	
+	static {
+		itemsInPage = 10;
+	}
 
 	{
-		URL = "jdbc:mysql://localhost:3306/jsp_am?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull";
-		USER = "root";
-		PASSWORD = "";
 		conn = null;
 	}
 	
@@ -33,13 +33,15 @@ public class ArticleListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection(URL, USER, PASSWORD);
+			Class.forName(Config.getDBDriverName());
+			conn = DriverManager.getConnection(Config.getDBUrl(), Config.getDBUsr(), Config.getDBPW());
 
 			List<Map<String, Object>> articleList;
-			int itemsInPage = 10;
 			int cPage;
 			int tPage;
+			
+			if (request.getParameter("itemsInPage") != null && itemsInPage != Integer.parseInt(request.getParameter("itemsInPage")))
+				itemsInPage = Integer.parseInt(request.getParameter("itemsInPage"));
 			
 			String inputPage = request.getParameter("page");
 			if (inputPage == null || inputPage.length() == 0)
@@ -50,14 +52,15 @@ public class ArticleListServlet extends HttpServlet {
 				cPage = 1;
 			}
 			
-			int from = ((cPage - 1) / itemsInPage) * 10 + 1;
-			int end = (((cPage - 1) / itemsInPage) +1) * 10;
+			int from = ((cPage - 1) / 10) * 10 + 1;
+			int end = (((cPage - 1) / 10) +1) * 10;
 					
 			SecSql sql = new SecSql();
 			sql.append("SELECT COUNT(*) FROM article");
 			int tArticle = DBUtil.selectRowIntValue(conn, sql);
 			
-			tPage = (int) Math.ceil((double) tArticle / 10);	
+			tPage = tArticle % itemsInPage == 0 ? tArticle / itemsInPage : tArticle / itemsInPage + 1;
+//			tPage = (int) Math.ceil((double) tArticle / 10);	
 			
 			sql = new SecSql();
 			sql.append("SELECT * FROM article");
@@ -86,6 +89,10 @@ public class ArticleListServlet extends HttpServlet {
 			}
 		}
 	
+	}
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
 	}
   	
 }

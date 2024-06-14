@@ -41,11 +41,29 @@
 		padding : 5px
 	}
 	
+	select {
+  		margin-bottom: 10px;
+  		padding: 4px;
+  		border-radius: 9px;
+}
+	
 </style>
 </head>
 <body>
 
 	<h3><%= cPage %> / <%= tPage %></h3>
+	<form action="" method="post"> 
+		<label for=""></label>
+		<input type="hidden" name ="page" value="1"/>
+		<select onchange="this.form.submit()" name="itemsInPage">
+			<option value="" selected disabled> 한페이지에 보이는 게시글
+			<option value="10"> 10개
+			<option value="20"> 20개
+			<option value="30"> 30개
+			<option value="50"> 50개
+			<option value="100"> 100개
+		</select>
+	</form>
 	
 	<table style="text-align:center;">
 		<colgroup>
@@ -72,6 +90,8 @@
 		</tbody>
 	</table>
  	
+	<button type="button" onclick="location.href='write'">글 작성하기</button>
+	
 	<div>
 		<% if (from != 1) { %>
 			<a class = "pageLink" href="?page=1">≪</a>
@@ -106,7 +126,6 @@
 	<a class = "a pageLink" href="?page=<%= tPage %>"> 끝페이지 </a>
 -->	
 
-	<button type="button" onclick="location.href='write'">글 작성하기</button>
 
 	<h3><a class = "a pageLink" href="/home/main">메인 화면</a></h3>
 </body>

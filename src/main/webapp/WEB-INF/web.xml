@@ -29,4 +29,14 @@
     <servlet-name>test</servlet-name>
     <url-pattern>/test</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Config</display-name>
+    <servlet-name>Config</servlet-name>
+    <servlet-class>com.koreaIT.jsp.am.config.Config</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Config</servlet-name>
+    <url-pattern>/Config</url-pattern>
+  </servlet-mapping>
 </web-app>

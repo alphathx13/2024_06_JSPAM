@@ -13,8 +13,8 @@ import java.sql.SQLException;
 import com.koreaIT.jsp.am.config.Config;
 import com.koreaIT.jsp.am.util.*;
 
-@WebServlet("/article/doWrite")
-public class ArticleDoWriteServlet extends HttpServlet {
+@WebServlet("/member/doJoin")
+public class MemberDoJoinServlet extends HttpServlet {
 	public Connection conn;
 
 	{
@@ -24,33 +24,35 @@ public class ArticleDoWriteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html; charset=UTF-8;");
 		
 		try {
 			Class.forName(Config.getDBDriverName());
 			conn = DriverManager.getConnection(Config.getDBUrl(), Config.getDBUsr(), Config.getDBPW());
-
-			String title = request.getParameter("title");
-			String body = request.getParameter("body");
-
+			
+			String memberId = request.getParameter("id");
+			String memberPassword = request.getParameter("password");
+			String name = request.getParameter("name");
+			
 			SecSql sql = new SecSql();
-			sql.append("INSERT INTO article");
-			sql.append("SET regDATE = NOW(),");
-			sql.append("updateDATE = NOW(),");
-			sql.append("title = ?,", title);
-		    sql.append("`body` = ?", body);
+			sql.append("select COUNT(*) from `member`");
+			sql.append("where memberId = ?", memberId);
 			
-			DBUtil.insert(conn, sql);
-
+			if ((int) DBUtil.selectRow(conn, sql).get("COUNT(*)") == 1) 
+				response.getWriter().append(String.format("<script> alert('입력하신 [%s]은(는) 이미 사용중인 아이디입니다.'); history.back(); </script>", memberId));				
+			
 			sql = new SecSql();
-			sql.append("SELECT * FROM article");
-			sql.append("ORDER BY id DESC");
-			sql.append("LIMIT 1");
+			sql.append("INSERT INTO `member`");
+			sql.append("SET memberId = ?", memberId);
+			sql.append(", memberPassword = ?", memberPassword);
+			sql.append(", name = ?", name);
+			sql.append(", regDate = NOW()");
+			sql.append(", updateDate = NOW()");
+
+			DBUtil.insert(conn, sql);
 			
-			int writeId = (int) DBUtil.selectRow(conn, sql).get("id");
-			
-			response.setContentType("text/html; charset=UTF-8");
-			response.getWriter().append(String.format("<script> alert('%d번 글을 작성하였습니다.'); location.replace('list');</script>", writeId));
-			
+			response.getWriter().append(String.format("<script> alert('%s님 회원가입을 축하합니다.'); location.replace('/home/main'); </script>", name));				
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {

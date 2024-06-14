@@ -40,8 +40,8 @@
 		
 		<br/>
 		
-		<button>전송</button>
-		<button type="button" onclick="location.href='list'">글 작성취소</button>
+		<button>작성</button>
+		<button type="button" onclick="location.href='list'">게시글 리스트</button>
 	</form>
 
 </body>

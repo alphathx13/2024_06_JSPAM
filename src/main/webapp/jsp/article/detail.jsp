@@ -32,7 +32,7 @@
 </head>
 <body>
 
-	<h1>ArticleDetail</h1>
+	<h1>Article Detail</h1>
 
 	<nav class="menu-bar">
 		<ul>
@@ -49,7 +49,7 @@
 	
 	<button><a href="modify?id=<%= article.get("id") %>">글 수정하기</a></button>
 	<button><a href="delete?id=<%= article.get("id") %>" onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false">글 삭제하기</a></button>
-	<button type="button" onclick="location.href='list'">게시글 목록으로 돌아가기</button>
+	<button type="button" onclick="location.href='list'">게시글 목록</button>
 	
 </body>
 </html>

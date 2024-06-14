@@ -11,18 +11,13 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import com.koreaIT.jsp.am.util.*;
+import com.koreaIT.jsp.am.config.*;
 
 @WebServlet("/article/delete")
 public class ArticleDeleteServlet extends HttpServlet {
-	private final String URL;
-	private final String USER;
-	private final String PASSWORD;
 	public Connection conn;
 
 	{
-		URL = "jdbc:mysql://localhost:3306/jsp_am?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull";
-		USER = "root";
-		PASSWORD = "";
 		conn = null;
 	}
 	
@@ -31,8 +26,8 @@ public class ArticleDeleteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection(URL, USER, PASSWORD);
+			Class.forName(Config.getDBDriverName());
+			conn = DriverManager.getConnection(Config.getDBUrl(), Config.getDBUsr(), Config.getDBPW());
 
 			SecSql sql = new SecSql();
 			

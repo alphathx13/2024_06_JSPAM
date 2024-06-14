@@ -9,9 +9,8 @@
 <body>
 	<h2>메인 페이지</h2>
 	
-	<div>
-		<div><a href="../article/list">게시판</a></div>
-	</div>
+	<button type="button" onclick="location.href='../article/list'">게시판</button>
+	<button type="button" onclick="location.href='../member/join'">회원가입</button>
 	
 </body>
 </html>

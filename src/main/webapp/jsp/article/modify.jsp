@@ -51,9 +51,9 @@
 		<br/>
 		
 		<button>글 수정하기</button>
+		<button type="button" onclick="location.href='/article/detail?id=<%= article.get("id") %>'">게시글로 돌아가기</button>
 	</form>
 	
-	<button type="button" onclick="location.href='/article/detail?id=<%= article.get("id") %>'">게시글로 돌아가기</button>
 	
 </body>
 </html>
