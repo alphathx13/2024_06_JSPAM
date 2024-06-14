@@ -1,9 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.util.List, java.util.Map" %>    
-    
-<%
-%>
 
 <!DOCTYPE html>
 <html>
@@ -29,9 +25,10 @@
 		text-decoration: none;
 	}
 	
- 	.pass:hover { 
- 		type = "text";
- 	} 
+	.small {
+		height : 22px;
+	}
+	
 </style>
 </head>
 <body>
@@ -40,8 +37,8 @@
 	
 	<form action="/member/doJoin" method="post" onsubmit="check(this); return false;">
 		<div> 아이디 : <input type ="text" name = "id" placeholder = "아이디를 입력해주세요"/></div>
-		<div> 비밀번호 : <input id = "pw1" type ="password" name = "password" placeholder = "비밀번호를 입력해주세요"/> <button type="button" onmouseover="view()" onmouseout="viewEnd()">비밀번호 보기</button></div> 
-		<div> 비밀번호 확인 : <input id = "pw2" type ="password" name = "passwordCheck" placeholder = "비밀번호를 다시 입력해주세요"/></div> 
+		<div> 비밀번호 : <input class = "pw" type ="password" name = "password" placeholder = "비밀번호를 입력해주세요"/> <button class = "small" type="button" onmouseover="view()" onmouseout="viewEnd()">비밀번호 보기</button></div> 
+		<div> 비밀번호 확인 : <input class = "pw" type ="password" name = "passwordCheck" placeholder = "비밀번호를 다시 입력해주세요"/></div> 
 		<div> 이름 : <input type ="text" name = "name" placeholder = "이름을 입력해주세요"/></div> 
 		
 		<br/>
@@ -52,13 +49,13 @@
 
 	<script>
   		function view() {
-  			document.getElementById("pw1").type='text';
-  			document.getElementById("pw2").type='text';
+  			document.getElementsByClassName("pw")[0].type='text';
+  			document.getElementsByClassName("pw")[1].type='text';
   		}
   		
   		function viewEnd() {
-  			document.getElementById("pw1").type='password';
-  			document.getElementById("pw2").type='password';
+  			document.getElementsByClassName("pw")[0].type='password';
+  			document.getElementsByClassName("pw")[1].type='password';
   		}
   		
   		function check(form) {
@@ -101,14 +98,7 @@
   	  		
   	  		form.submit();
   	  	}
-<!--   		
-		function passCheck() {
-  	    	let pw1 = document.getElementById('pw1').value;
-  	  		let pw2 = document.getElementById('pw2').value;
-  	  		if (pw1 != pw2)
-  	      		return false;
-  	  	}
--->  	  	
+  	
 	</script>
 </body>
 </html>
