@@ -31,14 +31,15 @@
 	
 </style>
 </head>
+
 <body>
 
 	<h1>회원 가입</h1>
 	
 	<form action="/member/doJoin" method="post" onsubmit="check(this); return false;">
 		<div> 아이디 : <input type ="text" name = "id" placeholder = "아이디를 입력해주세요"/></div>
-		<div> 비밀번호 : <input class = "pw" type ="password" name = "password" placeholder = "비밀번호를 입력해주세요"/> <button class = "small" type="button" onmouseover="view()" onmouseout="viewEnd()">비밀번호 보기</button></div> 
-		<div> 비밀번호 확인 : <input class = "pw" type ="password" name = "passwordCheck" placeholder = "비밀번호를 다시 입력해주세요"/></div> 
+		<div> 비밀번호 : <input class = "pw" type ="password" name = "password" placeholder = "비밀번호를 입력해주세요"/> <button class = "see" type="button">보기</button></div> 
+		<div> 비밀번호 확인 : <input type ="password" name = "passwordCheck" placeholder = "비밀번호를 다시 입력해주세요"/></div> 
 		<div> 이름 : <input type ="text" name = "name" placeholder = "이름을 입력해주세요"/></div> 
 		
 		<br/>
@@ -98,6 +99,16 @@
   	  		
   	  		form.submit();
   	  	}
+  		
+  		let input = document.querySelector(".pw");
+  		let change = document.querySelector(".see");
+  		change.addEventListener("click", function () {
+  		  if (input.type == "password") {
+  		    input.type = "text";
+  		  } else {
+  		    input.type = "password";
+  		  }
+  		});
   	
 	</script>
 </body>

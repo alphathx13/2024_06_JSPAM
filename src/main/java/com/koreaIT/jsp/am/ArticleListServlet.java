@@ -5,6 +5,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -68,6 +70,13 @@ public class ArticleListServlet extends HttpServlet {
 			sql.append("LIMIT ?, ?", (cPage-1)*itemsInPage, itemsInPage);
 			articleList = DBUtil.selectRows(conn, sql);
 			
+			HttpSession session = request.getSession();
+			int loginMemberNumber = -1;
+			
+			if (session.getAttribute("loginMemberNumber") != null) 
+				loginMemberNumber = (int) session.getAttribute("loginMemberNumber");
+			
+			request.setAttribute("loginMemberNumber", loginMemberNumber);
 			request.setAttribute("articleList", articleList);
 			request.setAttribute("cPage", cPage);
 			request.setAttribute("tPage", tPage);

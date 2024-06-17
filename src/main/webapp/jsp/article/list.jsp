@@ -9,6 +9,7 @@
 	int from = (int) request.getAttribute("from");
 	int end = (int) request.getAttribute("end");
 	int tempPage = cPage;
+	int loginMemberNumber = (int) request.getAttribute("loginMemberNumber");
 %>
 
 <!DOCTYPE html>
@@ -53,10 +54,9 @@
 
 	<h3><%= cPage %> / <%= tPage %></h3>
 	<form action="" method="post"> 
-		<label for=""></label>
 		<input type="hidden" name ="page" value="1"/>
 		<select onchange="this.form.submit()" name="itemsInPage">
-			<option value="" selected disabled> 한페이지에 보이는 게시글
+			<option value="" selected disabled> 페이지내 게시글 수
 			<option value="10"> 10개
 			<option value="20"> 20개
 			<option value="30"> 30개
@@ -90,7 +90,9 @@
 		</tbody>
 	</table>
  	
-	<button type="button" onclick="location.href='write'">글 작성하기</button>
+ 	<% if(loginMemberNumber != -1) { %>
+	<button class = "check" type="button" onclick="location.href='write'">글 작성하기</button>
+	<% } %>
 	
 	<div>
 		<% if (from != 1) { %>
@@ -126,7 +128,17 @@
 	<a class = "a pageLink" href="?page=<%= tPage %>"> 끝페이지 </a>
 -->	
 
-
 	<h3><a class = "a pageLink" href="/home/main">메인 화면</a></h3>
+	
+	<script>
+		let check = <%= loginMemberNumber %>;
+	
+	  	window.onload = function() {
+  		if (check.equals("-1")) {
+  			document.getElementsByClassName("check").display = "none";
+ 		} else {
+  			document.getElementsByClassName("check").display = "block";
+  		}
+	</script>
 </body>
 </html>
