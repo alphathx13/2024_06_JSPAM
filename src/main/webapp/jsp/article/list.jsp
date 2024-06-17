@@ -77,6 +77,7 @@
 				<th class = "tableStyle">글 번호</th>
 				<th class = "tableStyle">글 제목</th>
 				<th class = "tableStyle">수정일시</th>
+				<th class = "tableStyle">작성자</th>
 			</tr>
 		</thead>
 		<tbody>

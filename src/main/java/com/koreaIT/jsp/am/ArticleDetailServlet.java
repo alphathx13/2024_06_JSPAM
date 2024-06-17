@@ -5,6 +5,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -32,19 +34,16 @@ public class ArticleDetailServlet extends HttpServlet {
 
 			SecSql sql = new SecSql();
 			
-			sql.append("SELECT * FROM article");
-			sql.append("WHERE ID = ?", request.getParameter("id"));
+			sql.append("SELECT a.*, m.memberId 'writerId' FROM article a");
+			sql.append("INNER JOIN `member` m");
+			sql.append("on a.memberNumber = m.memberNumber");
+			sql.append("WHERE a.id = ?", request.getParameter("id"));
+			sql.append("order by a.id desc");
 			
 			Map<String, Object> article = DBUtil.selectRow(conn, sql);
 			
-			sql = new SecSql();
-			sql.append("SELECT memberId FROM `member`");
-			sql.append("WHERE memberNumber = ?", article.get("writer"));
-			
-			String writer = (String) DBUtil.selectRow(conn, sql).get("memberId");
-
 			request.setAttribute("article", article);
-			request.setAttribute("writer", writer);
+			
 			request.getRequestDispatcher("/jsp/article/detail.jsp").forward(request, response);
 			
 		} catch (SQLException e) {

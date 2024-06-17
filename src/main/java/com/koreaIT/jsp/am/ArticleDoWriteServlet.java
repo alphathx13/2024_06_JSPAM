@@ -28,18 +28,13 @@ public class ArticleDoWriteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
-			
-			HttpSession session = request.getSession();
-			int loginMemberNumber = -1;
-			
-			if (session.getAttribute("loginMemberNumber") != null) 
-				loginMemberNumber = (int) session.getAttribute("loginMemberNumber");
-			
 			Class.forName(Config.getDBDriverName());
 			conn = DriverManager.getConnection(Config.getDBUrl(), Config.getDBUsr(), Config.getDBPW());
 
 			String title = request.getParameter("title");
 			String body = request.getParameter("body");
+
+			HttpSession session = request.getSession();
 
 			SecSql sql = new SecSql();
 			sql.append("INSERT INTO article");
@@ -47,7 +42,7 @@ public class ArticleDoWriteServlet extends HttpServlet {
 			sql.append(", updateDATE = NOW()");
 			sql.append(", title = ?", title);
 		    sql.append(", `body` = ?", body);
-		    sql.append(", writer = ?", loginMemberNumber);
+		    sql.append(", memberNumber = ?", (int) session.getAttribute("loginMemberNumber"));
 			
 			DBUtil.insert(conn, sql);
 

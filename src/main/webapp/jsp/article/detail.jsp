@@ -4,7 +4,6 @@
     
 <%
 	Map<String, Object> article = (Map<String, Object>) request.getAttribute("article");
-	String writer = (String) request.getAttribute("writer");
 %>
 
 <!DOCTYPE html>
@@ -43,11 +42,12 @@
 			<li>수정일시 : <%= article.get("updateDate") %></li>
 			<li>글 제목 : <%= article.get("title") %></li>
 			<li>글 내용 : <%= article.get("body") %></li>
-			<li>작성자 : <%= writer %></li>
+			<li>작성자 : <%= article.get("writerId") %></li>
 		</ul>
 	</nav>
 	
 	<br>
+	
 	
 	<button type="button" onclick="location.href='modify?id=<%= article.get("id") %>'">글 수정하기</button>
 	<button type="button" onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false; location.href='delete?id=<%= article.get("id") %>'" >글 삭제하기</button>
