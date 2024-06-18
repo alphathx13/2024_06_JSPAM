@@ -9,7 +9,6 @@
 	int from = (int) request.getAttribute("from");
 	int end = (int) request.getAttribute("end");
 	int tempPage = cPage;
-	int loginMemberNumber = (int) request.getAttribute("loginMemberNumber");
 %>
 
 <!DOCTYPE html>
@@ -51,8 +50,10 @@
 </style>
 </head>
 <body>
+	<h2>게시글 목록</h2>
+	<%@ include file="/jsp/common/topBar.jsp" %>
 
-	<h3><%= cPage %> / <%= tPage %></h3>
+	<h4> <%= cPage %> / <%= tPage %> </h4>
 	<form action="" method="post"> 
 		<input type="hidden" name ="page" value="1"/>
 		<select onchange="this.form.submit()" name="itemsInPage">
@@ -64,6 +65,7 @@
 			<option value="100"> 100개
 		</select>
 	</form>
+	
 	
 	<table style="text-align:center;">
 		<colgroup>
@@ -86,6 +88,7 @@
 					<td class = "tableStyle"><%= article.get("id") %></td>
 					<td class = "tableStyle"><a href="/article/detail?id=<%= article.get("id") %>"><%= article.get("title") %></a></td>
 					<td class = "tableStyle"><%= article.get("updateDate") %></td>
+					<td class = "tableStyle"><%= article.get("memberId") %></td>
 				</tr>
 			<% } %>	
 		</tbody>

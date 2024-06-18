@@ -65,8 +65,9 @@ public class ArticleListServlet extends HttpServlet {
 //			tPage = (int) Math.ceil((double) tArticle / 10);	
 			
 			sql = new SecSql();
-			sql.append("SELECT * FROM article");
-			sql.append("ORDER BY id DESC");
+			sql.append("SELECT a.*, m.memberId FROM article a");
+			sql.append("INNER JOIN `member` m");
+			sql.append("on a.memberNumber = m.memberNumber");
 			sql.append("LIMIT ?, ?", (cPage-1)*itemsInPage, itemsInPage);
 			articleList = DBUtil.selectRows(conn, sql);
 			
@@ -77,6 +78,7 @@ public class ArticleListServlet extends HttpServlet {
 				loginMemberNumber = (int) session.getAttribute("loginMemberNumber");
 			
 			request.setAttribute("loginMemberNumber", loginMemberNumber);
+			request.setAttribute("loginMemberId", session.getAttribute("loginMemberId"));
 			request.setAttribute("articleList", articleList);
 			request.setAttribute("cPage", cPage);
 			request.setAttribute("tPage", tPage);

@@ -28,13 +28,12 @@ public class ArticleDetailServlet extends HttpServlet {
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		try {
+		try {		
 			Class.forName(Config.getDBDriverName());
 			conn = DriverManager.getConnection(Config.getDBUrl(), Config.getDBUsr(), Config.getDBPW());
 
 			SecSql sql = new SecSql();
-			
-			sql.append("SELECT a.*, m.memberId 'writerId' FROM article a");
+			sql.append("SELECT a.*, m.memberId `memberId` FROM article a");
 			sql.append("INNER JOIN `member` m");
 			sql.append("on a.memberNumber = m.memberNumber");
 			sql.append("WHERE a.id = ?", request.getParameter("id"));
@@ -42,8 +41,16 @@ public class ArticleDetailServlet extends HttpServlet {
 			
 			Map<String, Object> article = DBUtil.selectRow(conn, sql);
 			
-			request.setAttribute("article", article);
+			HttpSession session = request.getSession();
+			int loginMemberNumber = -1;
 			
+			if (session.getAttribute("loginMemberNumber") != null) 
+				loginMemberNumber = (int) session.getAttribute("loginMemberNumber");
+			
+			request.setAttribute("loginMemberNumber", loginMemberNumber);
+			request.setAttribute("loginMemberId", session.getAttribute("loginMemberId"));
+			request.setAttribute("article", article);
+				
 			request.getRequestDispatcher("/jsp/article/detail.jsp").forward(request, response);
 			
 		} catch (SQLException e) {
